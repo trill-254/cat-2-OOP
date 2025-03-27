@@ -23,10 +23,10 @@ public class RegestrationForm extends javax.swing.JFrame {
 
     public RegestrationForm() {
         initComponents();
-    jTextField1.setText("Enter ID");
-    jTextField2.setText("Enter Name");
-    jTextField3.setText("Enter Address");
-    jTextField4.setText("Enter Contact");
+    jTextField1.setText("");
+    jTextField2.setText("");
+    jTextField3.setText("");
+    jTextField4.setText("");
     }
 
     /**
