@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,6 +16,11 @@ public class RegestrationForm extends javax.swing.JFrame {
     /**
      * Creates new form RegestrationForm
      */
+  // Database connection details
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/registration_db"; // Replace with your DB URL
+    private static final String DB_USER = "root"; // Default username for MySQL
+    private static final String DB_PASSWORD = ""; // Default password for MySQL (empty by default)
+
     public RegestrationForm() {
         initComponents();
     jTextField1.setText("Enter ID");
@@ -289,7 +295,26 @@ public class RegestrationForm extends javax.swing.JFrame {
 
 
 
-    }                                        
+    }
+     private void insertIntoDatabase(String id, String name, String gender, String address, String contact) {
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            // Prepare SQL query to insert the data into the table
+            String sql = "INSERT INTO registrations (id, name, gender, address, contact) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                // Set parameters
+                pstmt.setString(1, id);
+                pstmt.setString(2, name);
+                pstmt.setString(3, gender);
+                pstmt.setString(4, address);
+                pstmt.setString(5, contact);
+
+                // Execute the query
+                pstmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error inserting data into database: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * @param args the command line arguments
